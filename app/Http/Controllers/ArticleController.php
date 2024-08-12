@@ -8,6 +8,6 @@ use Illuminate\Http\Request;
 class ArticleController extends Controller
 {
     public function show(Article $article){
-        dd($article);
+        return view('article', ['article' => $article]);
     }
 }

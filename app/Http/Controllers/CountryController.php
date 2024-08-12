@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class CountryController extends Controller
 {
     public function show(Country $country){
-        $regions = Region::all();
+        $regions = Region::where('country_id', $country->id)->get();
         return view('country', [
             'country' => $country,
             'regions' => $regions

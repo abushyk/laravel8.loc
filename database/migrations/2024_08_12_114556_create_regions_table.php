@@ -17,6 +17,7 @@ class CreateRegionsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
+            $table->foreignId('country_id')->constrained();
             $table->timestamps();
         });
     }

@@ -21,14 +21,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index']);
 
 // Determined routes
-Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article.show');
+Route::get('/article/{article}', [ArticleController::class, 'show'])->name('article.show');
 
 
 
 // Common route
-Route::fallback([FallbackController::class, 'index']);
+Route::get('/{any}', [FallbackController::class, 'index'])->where('any', '.*');;
 
 // Location routes
-Route::get('/{country:slug}', [CountryController::class, 'show'])->name('country');
-Route::get('/{region:slug}', [RegionController::class, 'show'])->name('region');
+Route::get('/{country:slug}', [FallbackController::class, 'empty'])->name('country');
+Route::get('/{region:slug}', [FallbackController::class, 'empty'])->name('region');
 

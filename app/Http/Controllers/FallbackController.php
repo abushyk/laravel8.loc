@@ -8,13 +8,14 @@ use Illuminate\Http\Request;
 
 class FallbackController extends Controller
 {
-    public function index($route){
-        $country = Country::where('slug', $route)->first();
+    public function index($any){
+        //dd($any);
+        $country = Country::where('slug', $any)->first();
         if($country){
             return app(CountryController::class)->show($country);
         }
 
-        $region = Region::where('slug', $route)->first();
+        $region = Region::where('slug', $any)->first();
         if($region){
             return app(RegionController::class)->show($region);
         }
