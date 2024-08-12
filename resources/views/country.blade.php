@@ -2,7 +2,7 @@
 <ul>
     @foreach($regions as $region)
         <li>
-            <a href="{{route('located.region', $region)}}">{{$region->name}}</a>
+            <a href="{{route('region', $region)}}">{{$region->name}}</a>
         </li>
     @endforeach
 </ul>

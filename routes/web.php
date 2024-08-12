@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\FallbackController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegionController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,17 +18,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index']);
 
+// Determined routes
 Route::get('/article/{id}', [ArticleController::class, 'show'])->name('article.show');
 
-Route::get('/x{country:slug}', [CountryController::class, 'show'])->name('located.country');
-Route::get('/x{region:slug}', [RegionController::class, 'show'])->name('located.region');
 
+
+// Common route
 Route::fallback([FallbackController::class, 'index']);
 
-//Route::get('/{slug}', [FallbackController::class, 'empty'])->name('located');
-//Route::get('/{slug}', [FallbackController::class, 'empty'])->name('country.show');
-//Route::get('/{slug}', [FallbackController::class, 'empty'])->name('region.show');
+// Location routes
+Route::get('/{country:slug}', [CountryController::class, 'show'])->name('country');
+Route::get('/{region:slug}', [RegionController::class, 'show'])->name('region');
+
