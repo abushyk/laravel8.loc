@@ -10,13 +10,13 @@
                         <a href="/advertising/">Реклама</a>
                     </li>
                     <li>
-                        <a href="/articles/">Статьи</a>
+                        <a href="/articles/">{{trans('home.prenav.articles')}}</a>
                     </li>
                     <li>
-                        <a href="/news/">Новости</a>
+                        <a href="/news/">{{trans('home.prenav.news')}}</a>
                     </li>
                     <li>
-                        <a href="/video/">Видео</a>
+                        <a href="/video/">{{trans('home.prenav.video')}}</a>
                     </li>
                 </ul>
             </div>

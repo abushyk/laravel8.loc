@@ -22,6 +22,14 @@ class FallbackController extends Controller
         return '404';
     }
 
+    public function country(Country $country){
+        return 'This is country '.$country->id;
+    }
+
+    public function region(Region $region){
+        return 'This is region '.$region->id;
+    }
+
 
 
     public function empty(string $slug){

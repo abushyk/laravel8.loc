@@ -6,6 +6,7 @@ use App\Http\Controllers\FallbackController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegionController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,17 +19,37 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
+function parseLocale(){
+    $resulted_locale = null;
+    $lang = request()->segment(1);
+    if(false !== $locale = array_search($lang, config('language')['languages'])){
+        app()->setLocale($locale);
+        URL::defaults(['locale' => $lang]);
+        $resulted_locale = $lang;
+    }
+    return $resulted_locale;
+}
 
-// Determined routes
-Route::get('/article/{article}', [ArticleController::class, 'show'])->name('article.show');
+Route::prefix(parseLocale())
+    //->middleware(\App\Http\Middleware\Localization::class)
+    ->group(function(){
+        // Home route
+        Route::get('/', [HomeController::class, 'index']);
 
+        Route::prefix('admin')->group(function () {
+            Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index']);
+            Route::get('/country', [\App\Http\Controllers\Admin\CountryController::class, 'index']);
+        });
 
+// Specific routes
+        Route::get('/article/{article}', [ArticleController::class, 'show'])->name('article.show');
 
-// Common route
-Route::get('/{any}', [FallbackController::class, 'index'])->where('any', '.*');;
+// Greedy route
+        Route::get('/{any}', [FallbackController::class, 'index'])->where('any', '.*');
 
 // Location routes
-Route::get('/{country:slug}', [FallbackController::class, 'empty'])->name('country');
-Route::get('/{region:slug}', [FallbackController::class, 'empty'])->name('region');
+        Route::get('/{country:slug}', [FallbackController::class, 'empty'])->name('country');
+        Route::get('/{region:slug}', [FallbackController::class, 'empty'])->name('region');
+    });
+
 
